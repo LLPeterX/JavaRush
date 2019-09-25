@@ -1,3 +1,2 @@
 # JavaRush
-JavaRush tasks
-Задания с сайта http://javarush.ru
+Задания с http://javarush.ru
