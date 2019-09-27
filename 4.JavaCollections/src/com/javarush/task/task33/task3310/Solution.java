@@ -1,6 +1,7 @@
 package com.javarush.task.task33.task3310;
 
 import com.javarush.task.task33.task3310.strategy.HashMapStorageStrategy;
+import com.javarush.task.task33.task3310.strategy.OurHashMapStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.StorageStrategy;
 
 import java.util.Date;
@@ -39,24 +40,27 @@ public class Solution {
         for(long i=0; i<elementsNumber; i++) {
             testSet.add(Helper.generateRandomString());
         }
+        //System.out.println(" >>> testSet:"+testSet.size());
         Shortener shortener = new Shortener(strategy);
         Date d0, d1;
         long duration;
-        // теперь замерить время для getIds
+
+        // теперь замерить время для getIds()
         Set<Long> testLongSet = new HashSet<>();
         d0 = new Date();
         for(String s: testSet) {
             testLongSet.add(shortener.getId(s));
         }
+        //System.out.println(" >>> testIds:"+testLongSet.size());
         d1 = new Date();
         duration = d1.getTime()-d0.getTime();
         Helper.printMessage(String.valueOf(duration));
+
         // замеряем время для getStrings()
         d0 = new Date();
         Set<String> resultSet = new HashSet<>();
-        for(Long key : testLongSet) {
+        for(Long key : testLongSet)
              resultSet.add(strategy.getValue(key));
-        }
         d1 = new Date();
         duration = d1.getTime()-d0.getTime();
         Helper.printMessage(String.valueOf(duration));
@@ -64,11 +68,14 @@ public class Solution {
             Helper.printMessage("Тест пройден.");
         } else {
             Helper.printMessage("Тест не пройден.");
+            Helper.printMessage(String.valueOf("Orig: "+testSet.size())+ " Res:"+resultSet.size());
+
         }
 
     }
 
     public static void main(String[] args) {
         testStrategy(new HashMapStorageStrategy(),10000);
+        testStrategy(new OurHashMapStorageStrategy(),10000);
     }
 }
