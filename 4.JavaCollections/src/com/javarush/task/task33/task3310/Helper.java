@@ -6,7 +6,6 @@ import java.security.SecureRandom;
 public class Helper {
 
     public static String generateRandomString() {
-        //final String symbols = "abcdefghijklmnopqrstuvwxyz0123456789";
         SecureRandom rnd = new SecureRandom();
         return new BigInteger(130, rnd).toString(36);
     }
