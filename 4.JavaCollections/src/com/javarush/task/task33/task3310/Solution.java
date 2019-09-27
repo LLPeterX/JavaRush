@@ -1,5 +1,6 @@
 package com.javarush.task.task33.task3310;
 
+import com.javarush.task.task33.task3310.strategy.FileStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.HashMapStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.OurHashMapStorageStrategy;
 import com.javarush.task.task33.task3310.strategy.StorageStrategy;
@@ -40,7 +41,7 @@ public class Solution {
         for(long i=0; i<elementsNumber; i++) {
             testSet.add(Helper.generateRandomString());
         }
-        //System.out.println(" >>> testSet:"+testSet.size());
+        System.out.println(" >>> testSet:"+testSet.size());
         Shortener shortener = new Shortener(strategy);
         Date d0, d1;
         long duration;
@@ -51,7 +52,7 @@ public class Solution {
         for(String s: testSet) {
             testLongSet.add(shortener.getId(s));
         }
-        //System.out.println(" >>> testIds:"+testLongSet.size());
+        System.out.println(" >>> testIds:"+testLongSet.size());
         d1 = new Date();
         duration = d1.getTime()-d0.getTime();
         Helper.printMessage(String.valueOf(duration));
@@ -77,5 +78,6 @@ public class Solution {
     public static void main(String[] args) {
         testStrategy(new HashMapStorageStrategy(),10000);
         testStrategy(new OurHashMapStorageStrategy(),10000);
+        testStrategy(new FileStorageStrategy(),100);
     }
 }

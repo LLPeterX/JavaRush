@@ -11,17 +11,8 @@ public class FileBucket {
 
     // конструктор - должен инициализировать path временным файлом, кот.удаляется при выходе
     public FileBucket() {
-// Так нельзя - валтдатору не нравицца.
-//        try {
-//            Files.deleteIfExists(path);
-//            path = Files.createTempFile(null, null);
-//            path.toFile().deleteOnExit();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//  А вот так можно:
         try {
-            path = Files.createTempFile("task3310-", ".tmp");
+            path = Files.createTempFile("task3310-", null);
             Files.deleteIfExists(path);
             Files.createFile(path);
         }
@@ -46,7 +37,6 @@ public class FileBucket {
               ObjectOutputStream objStream = new ObjectOutputStream(fileStream);) {
             objStream.writeObject(entry);
         } catch (IOException e) {
-            //e.printStackTrace();
             ExceptionHandler.log(e);
         }
     }
@@ -57,7 +47,6 @@ public class FileBucket {
               ObjectInputStream objStream = new ObjectInputStream(fileStream);) {
             return (Entry)objStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            //e.printStackTrace();
             // конструкторы и методы не должны кидать исключения
             ExceptionHandler.log(e);
             return null;
