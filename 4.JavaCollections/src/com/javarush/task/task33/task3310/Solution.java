@@ -38,7 +38,7 @@ public class Solution {
         for(long i=0; i<elementsNumber; i++) {
             testSet.add(Helper.generateRandomString());
         }
-        System.out.println(" >>> testSet:"+testSet.size());
+        //System.out.println(" >>> testSet:"+testSet.size());
         Shortener shortener = new Shortener(strategy);
         Date d0, d1;
         long duration;
@@ -49,7 +49,7 @@ public class Solution {
         for(String s: testSet) {
             testLongSet.add(shortener.getId(s));
         }
-        System.out.println(" >>> testIds:"+testLongSet.size());
+        //System.out.println(" >>> testIds:"+testLongSet.size());
         d1 = new Date();
         duration = d1.getTime()-d0.getTime();
         Helper.printMessage(String.valueOf(duration));
@@ -77,5 +77,6 @@ public class Solution {
         testStrategy(new OurHashMapStorageStrategy(),10000);
         testStrategy(new FileStorageStrategy(),100);
         testStrategy(new OurHashBiMapStorageStrategy(),10000);
+        testStrategy(new HashBiMapStorageStrategy(),10000);
     }
 }
