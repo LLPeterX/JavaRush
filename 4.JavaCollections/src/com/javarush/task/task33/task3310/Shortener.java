@@ -19,7 +19,11 @@ public class Shortener {
 
     // возвращает строку по id
     public synchronized String getString(Long id) {
+        //if(storageStrategy.containsKey(id)) {
             return storageStrategy.getValue(id);
+        //} else {
+//            return null;
+  //      }
     }
 
     // конструктор
