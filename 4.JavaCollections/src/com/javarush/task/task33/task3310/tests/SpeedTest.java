@@ -1,4 +1,3 @@
-// код украден с https://github.com/tyomakr/JavaRushHomeWork/blob/master/src/com/javarush/test/level33/lesson15/big01/tests/SpeedTest.java
 package com.javarush.task.task33.task3310.tests;
 
 import com.javarush.task.task33.task3310.Helper;
@@ -33,6 +32,8 @@ public class SpeedTest {
         Date d1 = new Date();
         return d1.getTime() - d0.getTime();
     }
+
+
 
     @Test
     public void testHashMapStorage() {
