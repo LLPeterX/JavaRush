@@ -15,6 +15,7 @@ public class Solution {
 
     public static Number[] getData() {
         //return null;
+        // Number - абстрактный тип. Просто набор значений нельзя вернуть.
         return new Number[0];
     }
 
