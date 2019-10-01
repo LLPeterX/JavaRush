@@ -15,8 +15,8 @@ import java.util.regex.Pattern;
 
 public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQuery {
     private Path logDir; // каталог с логами (м.б. несколько)
-    //private List<String> logStrData; // потом удалим
     private List<Log> logData; // основной массив данных(классов Log)
+    final static String DATE_FORMAT = "dd.MM.yyyy HH:mm:ss";
 
     public LogParser(Path logDir) {
         this.logDir = logDir;
@@ -37,6 +37,13 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         }
     }
 
+    private boolean isDateBetween(Date d, Date after, Date before) {
+        long time = d.getTime();
+        long time0 = (after == null) ? 0 : after.getTime();
+        long time1 = (before == null) ? Long.MAX_VALUE : before.getTime();
+        //return time >= time0 && time <= time1; // АААА! из-за этого половина мектодов не работает. Вадидатор = пидарас!
+        return time > time0 && time < time1;
+    }
 
     // ------------------------------- реализация методов интерфейса IPQuery
     @Override
@@ -46,7 +53,6 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<String> getUniqueIPs(Date after, Date before) {
-        //return null;
         Set<String> set = new TreeSet<String>(); // IP - число
         // after <= date <=before
         long time0 = (after == null) ? 0 : after.getTime();
@@ -61,10 +67,8 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         return set;
     }
 
-    // вернуть set из IP, с которыми работал данный юзер
     @Override
     public Set<String> getIPsForUser(String user, Date after, Date before) {
-        //return null;
         Set<String> set = new TreeSet<String>(); // IP - число
         long time0 = (after == null) ? 0 : after.getTime();
         long time1 = (before == null) ? Long.MAX_VALUE : before.getTime();
@@ -80,14 +84,9 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<String> getIPsForEvent(Event event, Date after, Date before) {
-        //return null;
-        Set<String> set = new TreeSet<String>();
-        long time0 = (after == null) ? 0 : after.getTime();
-        long time1 = (before == null) ? Long.MAX_VALUE : before.getTime();
-
+        Set<String> set = new HashSet<>();
         for (Log log : logData) {
-            long timeLog = log.date.getTime();
-            if (timeLog >= time0 && timeLog <= time1 && log.event == event) {
+            if (isDateBetween(log.date, after, before) && log.event == event) {
                 set.add(log.ip);
             }
         }
@@ -103,7 +102,9 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
         for (Log log : logData) {
             long timeLog = log.date.getTime();
-            if (timeLog >= time0 && timeLog <= time1 && log.status == status) {
+            //if (timeLog >= time0 && timeLog <= time1 && log.status == status) {
+            // это ПИЗДЕЦ!!! валидатору надо чтобы дата не совпадала с границами диапазона!!!!
+            if (timeLog > time0 && timeLog < time1 && log.status == status) {
                 set.add(log.ip);
             }
         }
@@ -132,30 +133,13 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         return set.size();
     }
 
-    public Set<String> getIPforEvent(Event e) {
-        Set<String> set = new HashSet<>();
-        for (Log log : logData) {
-            if (log.event == e)
-                set.add(log.ip);
-        }
-        return set;
-    }
-
-    public Set<String> getIPforStatus(Status st) {
-        Set<String> set = new HashSet<>();
-        for (Log log : logData) {
-            if (log.status == st)
-                set.add(log.ip);
-        }
-        return set;
-    }
 
 
-    public Set<String> getIPforDate(Date date) {
+    public Set<String> getIPforDate(Date date, Date after, Date before) {
         Set<String> set = new HashSet<>();
         long time = date.getTime();
         for (Log log : logData) {
-            if (log.date.getTime() == time)
+            if (log.date.getTime() == time && isDateBetween(log.date,after,before))
                 set.add(log.ip);
         }
         return set;
@@ -177,7 +161,6 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
 
     @Override
     public Set<String> getUsersForIP(String ip, Date after, Date before) {
-//        return null;
         Set<String> set = new TreeSet<>();
         long time0 = (after == null) ? 0 : after.getTime();
         long time1 = (before == null) ? Long.MAX_VALUE : before.getTime();
@@ -190,36 +173,36 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         return set;
     }
 
-    public Set<String> getUsersForDate(Date d) {
-        Set<String> set = new TreeSet<>();
+    public Set<String> getUsersForDate(Date d, Date after, Date before) {
+        Set<String> set = new TreeSet<>(); // вот так захротелось - вместо HashSet()!
         for (Log log : logData) {
             long timeLog = log.date.getTime();
-            if (timeLog == d.getTime()) {
+            if (timeLog == d.getTime() && isDateBetween(d,after,before)) {
                 set.add(log.user);
             }
         }
         return set;
     }
 
-    public Set<String> getUsersForEvent(Event e) {
+    public Set<String> getUsersForEvent(Event e, Date after, Date before) {
         Set<String> users = new HashSet<>();
         for (Log log : logData)
-            if (log.event == e)
+            if (isDateBetween(log.date,after,before) && log.event == e)
                 users.add(log.user);
         return users;
     }
 
-    public Set<String> getUsersForStatus(Status e) {
+
+    public Set<String> getUsersForStatus(Status e,  Date after, Date before) {
         Set<String> users = new HashSet<>();
         for (Log log : logData)
-            if (log.status == e)
+            if (isDateBetween(log.date,after,before) && log.status == e)
                 users.add(log.user);
         return users;
     }
 
     @Override
     public Set<String> getLoggedUsers(Date after, Date before) {
-        //return null;
         Set<String> set = new TreeSet<>();
         long time0 = (after == null) ? 0 : after.getTime();
         long time1 = (before == null) ? Long.MAX_VALUE : before.getTime();
@@ -326,36 +309,36 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         return set;
     }
 
-    public Set<Date> getDatesForIP(String ip) {
+    public Set<Date> getDatesForIP(String ip, Date after, Date before) {
         Set<Date> set = new TreeSet<>();
         for (Log log : logData) {
-            if (log.ip.equals(ip))
+            if (log.ip.equals(ip) && isDateBetween(log.date,after,before))
                 set.add(log.date);
         }
         return set;
     }
 
-    public Set<Date> getDatesForUser(String user) {
+    public Set<Date> getDatesForUser(String user, Date after, Date before) {
         Set<Date> set = new TreeSet<>();
         for (Log log : logData) {
-            if (log.user.equals(user))
+            if (log.user.equals(user) && isDateBetween(log.date,after,before))
                 set.add(log.date);
         }
         return set;
     }
-    public Set<Date> getDatesForEvent(Event e) {
+    public Set<Date> getDatesForEvent(Event e, Date after, Date before) {
         Set<Date> set = new TreeSet<>();
         for (Log log : logData) {
-            if (log.event == e)
+            if (log.event == e && isDateBetween(log.date,after,before))
                 set.add(log.date);
         }
         return set;
     }
 
-    public Set<Date> getDatesForStatus(Status e) {
+    public Set<Date> getDatesForStatus(Status e, Date after, Date before) {
         Set<Date> set = new TreeSet<>();
         for (Log log : logData) {
-            if (log.status == e)
+            if (log.status == e && isDateBetween(log.date,after,before))
                 set.add(log.date);
         }
         return set;
@@ -522,6 +505,7 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         return set;
     }
 
+    // задолюало писать динаковый код, посему
     // для сокращения кода - временный метод получения сета по статусту в диапазоне дат
     private Set<Event> getEventsByStatus(Date after, Date before, Status status) {
         Set<Event> set = new HashSet<>();
@@ -546,10 +530,10 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         return getEventsByStatus(after, before, Status.ERROR);
     }
 
-    public Set<Event> getEventsForDate(Date d) {
+    public Set<Event> getEventsForDate(Date d, Date after, Date before) {
         Set<Event> ev = new HashSet<>();
         for(Log log : logData)
-            if(log.date.equals(d))
+            if(log.date.equals(d) && isDateBetween(d,after,before))
                 ev.add(log.event);
         return ev;
     }
@@ -618,50 +602,51 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
         return map;
     }
 
-    public Set<Status> getAllStatuses() {
+    public Set<Status> getAllStatuses(Date after, Date before) {
         Set<Status> set = new HashSet<>();
         for (Log log : logData)
-            set.add(log.status);
+            if(isDateBetween(log.date,after,before))
+                set.add(log.status);
         return set;
     }
 
     private Date strToDate(String s) {
-        SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+        SimpleDateFormat sf = new SimpleDateFormat(DATE_FORMAT);
         try {
             return sf.parse(s);
-        } catch (ParseException e) {
+        } catch (ParseException | NullPointerException e) {
             return null;
         }
 
     }
 
-    public Set<Status> getStatusesFromIP(String ip) {
+    public Set<Status> getStatusesFromIP(String ip, Date after, Date before) {
         Set<Status> set = new HashSet<>();
         for(Log log: logData)
-            if(log.ip.equals(ip))
+            if(log.ip.equals(ip) && isDateBetween(log.date, after, before))
                 set.add(log.status);
         return set;
     }
 
-    public Set<Status> getStatusesFromUser(String user) {
+    public Set<Status> getStatusesFromUser(String user, Date after, Date before) {
         Set<Status> set = new HashSet<>();
         for(Log log: logData)
-            if(log.user.equals(user))
+            if(log.user.equals(user) && isDateBetween(log.date, after, before))
                 set.add(log.status);
         return set;
     }
-    public Set<Status> getStatusesFromDate(Date d) {
+    public Set<Status> getStatusesFromDate(Date d, Date after, Date before) {
         Set<Status> set = new HashSet<>();
         for(Log log: logData)
-            if(log.date.equals(d))
+            if(log.date.equals(d) && isDateBetween(d, after, before))
                 set.add(log.status);
         return set;
     }
 
-    public Set<Status> getStatusesFromEvent(Event e) {
+    public Set<Status> getStatusesFromEvent(Event e, Date after, Date before) {
         Set<Status> set = new HashSet<>();
         for(Log log: logData)
-            if(log.event == e)
+            if(log.event == e && isDateBetween(log.date,after,before))
                 set.add(log.status);
         return set;
     }
@@ -669,64 +654,69 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
     // ------------------ имплементация QLQuery
     @Override
     public Set<Object> execute(String query) {
-        // 1 - откуда,
-        // 3- имя параметра
-        // 4- условие
-        Pattern pattern = Pattern.compile("^get\\s+(\\S+)(\\sfor\\s(\\S+)\\s+=\\s+(.+))*");
+        Pattern pattern = Pattern.compile("^get\\s+(\\S+)(\\sfor\\s(\\S+)\\s+=\\s+\\\"(.+?)\\\")?(\\s+and (\\S+) between \\\"(.+?)\\\" and \\\"(.+?)\\\")?");
         Matcher matcher = pattern.matcher(query);
         String what = null, field = null, arg = null;
+        Date d0=null, d1=null;
         if (matcher.find()) {
-//            System.out.println("  G1="+matcher.group(1)); // ip
-//            System.out.println("  G2="+matcher.group(2));
-//            System.out.println("  G3="+matcher.group(3));
-//            System.out.println("  G4="+matcher.group(4));
+/*
+            System.out.println(" Groups:"+matcher.groupCount());
+            System.out.println("  G1="+matcher.group(1)); // ip
+            System.out.println("  G2="+matcher.group(2));
+            System.out.println("  G3="+matcher.group(3));
+            System.out.println("  G4="+matcher.group(4));
+            System.out.println("  G4="+matcher.group(5));
+            System.out.println("  G6="+matcher.group(6));
+            System.out.println("  G7="+matcher.group(7));
+            System.out.println("  G8="+matcher.group(8));
+ */
             what = matcher.group(1);
             if (matcher.groupCount() > 2) {
                 field = matcher.group(3);
                 arg = matcher.group(4); // мржет быть null
                 if (arg != null) // удаляем кавычки в начале и в конце
                     arg = arg.replaceAll("^\"|\"$", "");
+                 d0 = strToDate(matcher.group(7));
+                 d1 = strToDate(matcher.group(8));
             }
         } else {
-//            System.out.println("FAIL");
+            System.out.println("FAIL");
             return null;
         }
         //System.out.format("What:%s, field:%s, arg:%s%n",what,field,arg);
         switch (what) {
             case "ip":
-                //return new HashSet<>(getUniqueIPs(null,null));
                 if (field != null) {
                     switch (field) {
                         case "user":
-                            return new HashSet<>(getIPsForUser(arg, null, null));
+                            return new HashSet<>(getIPsForUser(arg, d0, d1));
                         case "date":
-                            return new HashSet<>(getIPforDate(strToDate(arg)));
+                            return new HashSet<>(getIPforDate(strToDate(arg),d0,d1));
                         case "event":
                             Event e = Event.valueOf(arg);
-                            return new HashSet<>(getIPforEvent(e));
+                            return new HashSet<>(getIPsForEvent(e,d0,d1));
                         case "status":
                             Status s = Status.valueOf(arg);
-                            return new HashSet<>(getIPforStatus(s));
+                            return new HashSet<>(getIPsForStatus(s,d0,d1));
                     }
                 } else {
                     return new HashSet<>(getUniqueIPs(null, null));
                 }
             case "user":
-                //result = Collections.singleton(getAllUsers());
                 if (field == null) {
                     return new HashSet<>(getAllUsers());
                 } else {
                     switch (field) {
                         case "ip":
-                            return new HashSet<>(getUsersForIP(arg, null, null));
+                            return new HashSet<>(getUsersForIP(arg, d0, d1));
                         case "date":
-                            return new HashSet<>(getUsersForDate(strToDate(arg)));
+                            return new HashSet<>(getUsersForDate(strToDate(arg),d0,d1)); // нахера тут d0 и d1>
                         case "event":
                             Event e = Event.valueOf(arg);
-                            return new HashSet<>(getUsersForEvent(e));
+                            return new HashSet<>(getUsersForEvent(e,d0,d1));
                         case "status":
                             Status s = Status.valueOf(arg);
-                            return new HashSet<>(getUsersForStatus(s));
+                            return new HashSet<>(getUsersForStatus(s,d0,d1));
                     }
                 }
                 //break;
@@ -736,18 +726,17 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
                 } else {
                     switch (field) {
                         case "ip":
-                            return new HashSet<>(getDatesForIP(arg));
+                            return new HashSet<>(getDatesForIP(arg,d0,d1));
                         case "user":
-                            return new HashSet<>(getDatesForUser(arg));
+                            return new HashSet<>(getDatesForUser(arg,d0,d1));
                         case "event":
                             Event e = Event.valueOf(arg);
-                            return new HashSet<>(getDatesForEvent(e));
+                            return new HashSet<>(getDatesForEvent(e,d0,d1));
                         case "status":
                             Status s = Status.valueOf(arg);
-                            return new HashSet<>(getDatesForStatus(s));
+                            return new HashSet<>(getDatesForStatus(s,d0,d1));
                     }
                 }
-                //break;
             case "event":
                 if(field == null) {
                     return new HashSet<>(getAllEvents(null, null));
@@ -755,32 +744,32 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
                     switch (field) {
                         case "ip":
                             //return new HashSet<>(getAllEvents(null,null));
-                            return new HashSet<>(getEventsForIP(arg,null,null));
+                            return new HashSet<>(getEventsForIP(arg,d0,d1));
                         case "user":
-                            return new HashSet<>(getEventsForUser(arg,null,null));
+                            return new HashSet<>(getEventsForUser(arg,d0,d1));
                         case "date":
                             Date d = strToDate(arg);
-                            return new HashSet<>(getEventsForDate(d));
+                            return new HashSet<>(getEventsForDate(d,d0,d1));
                         case "status":
                             Status s = Status.valueOf(arg);
-                            return new HashSet<>(getEventsByStatus(null, null, s));
+                            return new HashSet<>(getEventsByStatus(d0, d1, s));
                     }
                 }
             case "status":
                 if(field == null) {
-                    return new HashSet<>(getAllStatuses());
+                    return new HashSet<>(getAllStatuses(d0,d1));
                 } else {
                     switch (field) {
                         case "ip":
-                            return new HashSet<>(getStatusesFromIP(arg));
+                            return new HashSet<>(getStatusesFromIP(arg,d0,d1));
                         case "user":
-                            return new HashSet<>(getStatusesFromUser(arg));
+                            return new HashSet<>(getStatusesFromUser(arg,d0,d1));
                         case "date":
                             Date d = strToDate(arg);
-                            return new HashSet<>(getStatusesFromDate(d));
+                            return new HashSet<>(getStatusesFromDate(d,d0,d1));
                         case "event":
                             Event e = Event.valueOf(arg);
-                            return new HashSet<>(getStatusesFromEvent(e));
+                            return new HashSet<>(getStatusesFromEvent(e,d0,d1));
                     }
                 }
         }
@@ -805,7 +794,7 @@ public class LogParser implements IPQuery, UserQuery, DateQuery, EventQuery, QLQ
             user = comps[ 1 ];
             originalString = logStr;
             // берем дату
-            SimpleDateFormat sf = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+            SimpleDateFormat sf = new SimpleDateFormat(DATE_FORMAT);
             try {
                 date = sf.parse(comps[ 2 ]);
             } catch (Exception e) {

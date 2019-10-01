@@ -2,7 +2,6 @@ package com.javarush.task.task39.task3913;
 
 import java.nio.file.Paths;
 import java.util.Date;
-import java.util.Set;
 
 public class Solution {
     public static void main(String[] args) {
@@ -31,11 +30,17 @@ public class Solution {
         System.out.println("QL:");
         //logParser.execute("get ip for user = \"Vasya Pupkin\"");
         //System.out.println();
-        Set<Object> set = logParser.execute("get ip");
-        System.out.println("Got IP: "+ set);
-        System.out.println("Got users: "+logParser.execute("get user"));
-        System.out.println("Got dates:"+logParser.execute("get date"));
-        System.out.println("QL1:");
-        System.out.println("Pupkin: "+logParser.execute("get ip for user = \"Vasya Pupkin\""));
+//        Set<Object> set = logParser.execute("get ip");
+//        System.out.println("Got IP: "+ set);
+//        System.out.println("Got users: "+logParser.execute("get user"));
+//        System.out.println("Got dates:"+logParser.execute("get date"));
+//        System.out.println("QL1:");
+        //System.out.println("ALL:"+logParser.execute("get ip"));
+        //System.out.println("Pupkin: "+logParser.execute("get ip for user = \"Vasya Pupkin\""));
+        //System.out.println("MZ2: "+logParser.execute("get ip for user = \"Eduard Petrovich Morozko\" and date between \"11.12.2013 0:00:00\" and \"03.01.2014 23:59:59\""));
+        //System.out.println("IpEv: "+logParser.execute("get ip for event = \"WRITE_MESSAGE\" and date between \"13.09.2013 5:04:50\" and \"03.01.2014 03:45:23\""));
+        //System.out.println("StDate: "+logParser.execute("get status for date = \"13.09.2013 5:04:50\" and date between \"13.09.2013 5:04:50\" and \"03.01.2014 03:45:23\""));
+        System.out.println("DtEv: "+ logParser.execute("get date for event = \"LOGIN\" and date between \"13.09.2013 5:04:50\" and \"03.01.2014 03:45:23\""));
+        System.out.println("IPv: "+ logParser.execute("get ip for event = \"LOGIN\" and date between \"13.09.2013 5:04:50\" and \"03.01.2014 03:45:23\""));
     }
 }
