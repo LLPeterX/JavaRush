@@ -7,12 +7,27 @@ import java.util.List;
 
 public class HtmlView implements View {
     private Controller controller;
+    // В классе HtmlView создай приватное строковое final поле filePath и присвой ему относительный путь к vacancies.html.
+    // ниже filePath правильно (?)
+    final private String filePath = "./4.JavaCollections/src/"+this.getClass().getPackage().getName().replace('.', '/')+"/vacancies.html";
 
     // список вакансий для отображения
     @Override
     public void update(List<Vacancy> vacancies) {
-        // Важно! тут надо вывести только число без взяских доп. элементов типа "Вакансий: NNN"
-        System.out.println(vacancies.size());
+        //System.out.println(vacancies.size());
+        // 1. В методе update класса HtmlView реализуй следующую логику:
+        //1.1. сформируй новое тело файла vacancies.html, которое будет содержать вакансии,
+        //1.2. запиши в файл vacancies.html его обновленное тело,
+        //1.3. Все исключения должны обрабатываться в этом методе - выведи стек-трейс, если возникнет исключение.
+
+
+        try {
+            String fileBody = getUpdatedFileContent(vacancies);
+            updateFile(fileBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -23,5 +38,14 @@ public class HtmlView implements View {
     // симуляция события - действие юзера
     public void userCitySelectEmulationMethod() {
         controller.onCitySelect("Odessa");
+    }
+
+    // пустые методы для обновления содержимого файов
+    private String getUpdatedFileContent(List<Vacancy> vacList) {
+        return null;
+    }
+
+    private void updateFile(String fileName) {
+
     }
 }

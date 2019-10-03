@@ -9,6 +9,7 @@ public class Provider {
 
     public Provider(Strategy strategy) {
         this.strategy = strategy;
+
     }
 
     public void setStrategy(Strategy strategy) {
