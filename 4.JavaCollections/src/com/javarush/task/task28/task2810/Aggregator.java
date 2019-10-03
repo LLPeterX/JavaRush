@@ -12,7 +12,10 @@ public class Aggregator {
         View vv = new HtmlView();
         Model model = new Model(vv,provider);
         Controller controller = new Controller(model);
+        vv.setController(controller);
         // Agggator(11): Удали код из метода main. Этот код уже не валидный.
         //controller.scan();
+        //controller.onCitySelect("Odessa");
+        ((HtmlView) vv).userCitySelectEmulationMethod();
     }
 }

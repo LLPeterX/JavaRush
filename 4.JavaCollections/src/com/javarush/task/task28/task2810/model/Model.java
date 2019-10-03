@@ -29,7 +29,7 @@ public class Model {
         }
         view.update(vacancies);
     }
-
+/*
     public void scan() {
         // пройтись по всем провайдерам и собрать вакансии
         List<Vacancy> vacancies = new ArrayList<>();
@@ -38,5 +38,5 @@ public class Model {
         }
         System.out.println(vacancies.size());
     }
-
+*/
 }
