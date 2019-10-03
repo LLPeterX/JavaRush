@@ -35,10 +35,10 @@ public class HHStrategy implements Strategy {
         int page = 0;
         List<Vacancy> vacancies = new ArrayList<>();
         Document doc = null;
-        // цикл НАДО заключить в try/catch. Просто while() не принимает вадилдатор (хотя всё работает)
         try {
             doc = getDocument(searchString, page);
             while (true) {
+                //doc = getDocument(searchString, page);
                 Elements elVacancies = doc.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy");
                 if (elVacancies.size() == 0) break;
                 // проходимся по всем <div> вакансий
@@ -49,16 +49,16 @@ public class HHStrategy implements Strategy {
                         vacancy.setTitle(elVac.getElementsByAttributeValueContaining("data-qa", "title").text());
                         // компания  (data-qa="vacancy-serp__vacancy-employer")
                         vacancy.setCompanyName(elVac.getElementsByAttributeValue("data-qa", "vacancy-serp__vacancy-employer").text());
-                        // адрес (data-qa="vacancy-serp__vacancy-address") - или просто "address"
+                        // адрес (data-qa="vacancy-serp__vacancy-address">Киев)
                         vacancy.setCity(elVac.getElementsByAttributeValueContaining("data-qa", "address").text());
-                        // зарплата (data-qa="vacancy-serp__vacancy-compensation") - или просто "compensation"
+                        // зарплата (data-qa="vacancy-serp__vacancy-compensation")
                         String zarplata = elVac.getElementsByAttributeValueContaining("data-qa", "compensation").text();
                         vacancy.setSalary(zarplata.length() == 0 ? "" : zarplata);
-                        // URL берем из A.. HREF
+                        // откуда взять URL? из a href...
                         String url = elVac.getElementsByAttributeValueContaining("data-qa", "title").attr("href");
-                        vacancy.setUrl(url); // херня, ссылка всё равно на hh.ua
+                        vacancy.setUrl(url);
                         // siteName
-                        vacancy.setSiteName(URL_FORMAT); // х.з. зачем siteName
+                        vacancy.setSiteName(URL_FORMAT); // вообще, неправильно! Да х.з. зачем siteName
                         // добавляем вакансию в список
                         vacancies.add(vacancy);
                     }
@@ -77,9 +77,10 @@ public class HHStrategy implements Strategy {
     }
 
     protected Document getDocument(String searchString, int page)  throws IOException {
-        //String url = "http://javarush.ru/testdata/big28data.html"; // временный URL - не надо юзать
+        //String url = "http://javarush.ru/testdata/big28data.html"; // временный URL
         String url = String.format(URL_FORMAT,searchString,page);
         String userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0";
+        //String referer = "https://hh.ua/search/vacancy?text=java+%D0%BA%D0%B8%D0%B5%D0%B2";
         String referer = "https://hh.ua";
         Document doc = null;
         try {
@@ -87,7 +88,7 @@ public class HHStrategy implements Strategy {
         } catch (IOException e) {
             e.printStackTrace();
         }
-// для тестирования с файлом - тоже на самом деле не нуджно
+// для тестирования с файлом
 //        Document doc = null;
 //        try {
 //            doc = Jsoup.parse(new File("C:\\work\\Java\\JavaRushTasks\\vacancies.html"),"UTF-8");
