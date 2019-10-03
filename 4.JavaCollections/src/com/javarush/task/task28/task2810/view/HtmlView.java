@@ -14,6 +14,7 @@ import java.util.List;
 public class HtmlView implements View {
     private Controller controller;
     // В классе HtmlView создай приватное строковое final поле filePath и присвой ему относительный путь к vacancies.html.
+    // ниже filePath правильно (?)
     final private String filePath = "./4.JavaCollections/src/"+this.getClass().getPackage().getName().replace('.', '/')+"/vacancies.html";
 
     // список вакансий для отображения
@@ -65,6 +66,7 @@ public class HtmlView implements View {
                   Element eURL = eTitle.getElementsByTag("a").first();
                   eURL.attr("href", v.getUrl());
                   eURL.text(v.getTitle());
+                //eTitle.text(v.getTitle());
                 // пишем город
                 Element eCity = e.getElementsByClass("city").first();
                 eCity.text(v.getCity());
