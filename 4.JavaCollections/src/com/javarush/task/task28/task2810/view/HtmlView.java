@@ -8,6 +8,7 @@ import java.util.List;
 public class HtmlView implements View {
     private Controller controller;
 
+    // список вакансий для отображения
     @Override
     public void update(List<Vacancy> vacancies) {
 
