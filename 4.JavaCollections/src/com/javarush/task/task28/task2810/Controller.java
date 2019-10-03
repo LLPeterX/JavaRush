@@ -31,7 +31,7 @@ public class Controller {
     public void scan() {
         // пройтись по всем провайдерам и собрать вакансии
         for(Provider p : providers) {
-            vacancies.addAll(p.getJavaVacancies(null));
+            vacancies.addAll(p.getJavaVacancies("Киев"));
         }
         System.out.println(vacancies.size());
     }
