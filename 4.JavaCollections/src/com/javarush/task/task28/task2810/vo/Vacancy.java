@@ -1,5 +1,7 @@
 package com.javarush.task.task28.task2810.vo;
 
+import java.util.Objects;
+
 // Этот класс будет хранить данные о вакансии.
 public class Vacancy {
     // 3. Что есть у вакансии?
@@ -60,5 +62,35 @@ public class Vacancy {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public String toString() {
+        return "Vacancy{" +
+                "title='" + title + '\'' +
+                ", salary='" + salary + '\'' +
+                ", city='" + city + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", siteName='" + siteName + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vacancy vacancy = (Vacancy) o;
+        return title.equals(vacancy.title) &&
+                salary.equals(vacancy.salary) &&
+                city.equals(vacancy.city) &&
+                companyName.equals(vacancy.companyName) &&
+                siteName.equals(vacancy.siteName) &&
+                url.equals(vacancy.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, salary, city, companyName, siteName, url);
     }
 }
