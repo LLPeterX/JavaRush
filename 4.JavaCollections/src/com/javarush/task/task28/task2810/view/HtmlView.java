@@ -3,6 +3,8 @@ package com.javarush.task.task28.task2810.view;
 import com.javarush.task.task28.task2810.Controller;
 import com.javarush.task.task28.task2810.vo.Vacancy;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class HtmlView implements View {
@@ -19,8 +21,6 @@ public class HtmlView implements View {
         //1.1. сформируй новое тело файла vacancies.html, которое будет содержать вакансии,
         //1.2. запиши в файл vacancies.html его обновленное тело,
         //1.3. Все исключения должны обрабатываться в этом методе - выведи стек-трейс, если возникнет исключение.
-
-
         try {
             String fileBody = getUpdatedFileContent(vacancies);
             updateFile(fileBody);
@@ -45,7 +45,12 @@ public class HtmlView implements View {
         return null;
     }
 
-    private void updateFile(String fileName) {
-
+    // надо записать содержимое fileBody в файл filePath
+    private void updateFile(String fileBody) {
+        try (FileOutputStream outf = new FileOutputStream(filePath)) {
+            outf.write(fileBody.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
