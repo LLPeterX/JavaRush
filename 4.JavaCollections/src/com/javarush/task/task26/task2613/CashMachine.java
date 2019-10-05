@@ -9,6 +9,8 @@ public class CashMachine {
     public static void main(String[] args) {
         Locale.setDefault(Locale.ENGLISH);
         try {
+            // сначала выполнить LOGIN, а потом остальной цикл
+            CommandExecutor.execute(Operation.LOGIN);
             Operation op;
             do {
                 op = ConsoleHelper.askOperation();

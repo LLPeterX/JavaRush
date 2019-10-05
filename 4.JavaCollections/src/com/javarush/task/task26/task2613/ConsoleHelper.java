@@ -65,6 +65,8 @@ public class ConsoleHelper {
             inputStr = readString();
             try {
                 int opCode = Integer.parseInt(inputStr);
+                if(opCode == 0) // для LOGIN надо бросить исключение
+                    throw new IllegalArgumentException();
                 return Operation.getAllowableOperationByOrdinal(opCode);
             } catch (Exception e) {
                 writeMessage("Неверный ввод. Попробуйте еще раз");
