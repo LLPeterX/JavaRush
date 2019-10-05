@@ -10,8 +10,8 @@ public class LoginCommand implements Command {
     // ниже комменты - от Банкомат(11) - убрать
 //    private String cardNumber = "123456789012";
 //    private String cardPIN = "1234";
-    private ResourceBundle validCreditCards = ResourceBundle.getBundle(CashMachine.class.getPackage().getName()+".resources.verifiedCards");
-    private ResourceBundle res = ResourceBundle.getBundle(CashMachine.class.getPackage().getName()+".resources.login_en");
+    private ResourceBundle validCreditCards = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH+"verifiedCards");
+    private ResourceBundle res = ResourceBundle.getBundle(CashMachine.RESOURCE_PATH+"login_en");
 
     @Override
     public void execute() throws InterruptOperationException {
