@@ -8,7 +8,9 @@ public class CashMachine {
         String kval = ConsoleHelper.askCurrencyCode();
         String[] valuta = ConsoleHelper.getValidTwoDigits(kval);
         CurrencyManipulator manipulator = CurrencyManipulatorFactory.getManipulatorByCurrencyCode(kval);
-        manipulator.addAmount(Integer.parseInt(valuta[0]), Integer.parseInt(valuta[1]));
-        ConsoleHelper.writeMessage("Total amount: "+manipulator.getTotalAmount());
+        manipulator.addAmount(Integer.parseInt(valuta[0]), Integer.parseInt(valuta[1])); // операция DEPOSIT - надо убрать
+        ConsoleHelper.writeMessage(String.valueOf(manipulator.getTotalAmount())); // операция INFO - надо убрать
+        // test
+        //System.out.println(ConsoleHelper.askOperation());
     }
 }

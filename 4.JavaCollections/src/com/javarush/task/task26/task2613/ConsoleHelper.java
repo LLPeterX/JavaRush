@@ -1,6 +1,8 @@
 package com.javarush.task.task26.task2613;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class ConsoleHelper {
     private static BufferedReader bis = new BufferedReader(new InputStreamReader(System.in));
@@ -47,6 +49,20 @@ public class ConsoleHelper {
                 return parts;
             } catch (Exception e) {
                 writeMessage("Неверные значения. Попробйте еще раз");
+            }
+        }
+    }
+
+    public static Operation askOperation() {
+        String inputStr;
+        while(true) {
+            writeMessage("Введите код операции (1 - INFO, 2 - DEPOSIT, 3 - WITHDRAW, 4 - EXIT:");
+            inputStr = readString();
+            try {
+                int opCode = Integer.parseInt(inputStr);
+                return Operation.getAllowableOperationByOrdinal(opCode);
+            } catch (Exception e) {
+                writeMessage("Неверный ввод. Попробуйте еще раз");
             }
         }
     }
