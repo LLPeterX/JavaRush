@@ -31,8 +31,8 @@ public class LoginCommand implements Command {
                 } else {
                     ConsoleHelper.writeMessage("Данные невалидные");
                 }
-//            } else {
-//                ConsoleHelper.writeMessage("Неверные данные");
+            } else {
+                ConsoleHelper.writeMessage("Неверные данные");
             }
         }
 
