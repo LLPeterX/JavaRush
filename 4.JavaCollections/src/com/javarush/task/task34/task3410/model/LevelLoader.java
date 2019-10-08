@@ -6,7 +6,7 @@ import java.util.Set;
 
 // Загрузчик уровня из текстового файла
 public class LevelLoader {
-    private Path levels; // путь 
+    private Path levels; // путь
 
     public LevelLoader(Path levels) {
         this.levels = levels;
