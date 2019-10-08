@@ -16,7 +16,7 @@ public class Box extends CollisionObject implements Movable {
         int y0 = this.getY() - getHeight() / 2;
 
         graphics.drawRect(x0, y0, getWidth(), getHeight());
-        graphics.drawRect(x0+1, y0+1, getWidth()-1, getHeight()-1);
+        graphics.drawRect(x0+1, y0+1, getWidth()-2, getHeight()-2);
         graphics.drawLine(x0,y0,x0+getWidth(), y0+getHeight());
         graphics.drawLine(x0,y0+getHeight(),x0+getWidth(), y0);
         //graphics.fillRect(x0, y0, getWidth(), getHeight());
