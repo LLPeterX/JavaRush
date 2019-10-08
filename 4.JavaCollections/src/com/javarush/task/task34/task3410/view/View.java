@@ -38,4 +38,16 @@ public class View extends JFrame {
     public GameObjects getGameObjects() {
         return controller.getGameObjects();
     }
+
+    public void completed(int level) {
+        // Метод должен:
+        //13.3.1. Обновлять представление.
+        //13.3.2. Показывать диалоговое окно с информацией о том, что пользователь прошел
+        //какой-то уровень.
+        update();
+        String message = String.format("Уровень %d завершен",level);
+        JOptionPane.showMessageDialog(null,message);
+        controller.startNextLevel();
+    }
+
 }

@@ -15,6 +15,8 @@ public class Controller implements EventListener {
         this.model = new Model();
         this.model.restart();
         this.view.init();
+        this.model.setEventListener(this);
+        this.view.setEventListener(this);
 
     }
     // основные методы
@@ -27,22 +29,28 @@ public class Controller implements EventListener {
 
     @Override
     public void move(Direction direction) {
-
+        // должен вызывать move(Direction direction) у модели
+        model.move(direction);
+        view.update();
     }
 
     @Override
     public void restart() {
-
+        // перезапустить модель и обновить view
+        model.restart();
+        view.update();
     }
 
     @Override
     public void startNextLevel() {
-
+        // запускать у модели новый уровень и обновлять представление.
+        model.startNextLevel();
+        view.update();
     }
 
     @Override
     public void levelCompleted(int level) {
-
+        view.completed(level);
     }
 
     public GameObjects getGameObjects() {
