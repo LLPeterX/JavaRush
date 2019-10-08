@@ -11,10 +11,12 @@ public class Controller {
         
         this.view = new View(this);
         this.model = new Model();
+        this.view.init();
     }
 
     // основной метод
     public static void main(String[] args) {
+        Controller controller = new Controller();
 
     }
 }
