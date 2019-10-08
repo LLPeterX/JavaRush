@@ -1,10 +1,7 @@
 package com.javarush.task.task34.task3410.view;
 
 import com.javarush.task.task34.task3410.controller.EventListener;
-import com.javarush.task.task34.task3410.model.Box;
-import com.javarush.task.task34.task3410.model.Home;
-import com.javarush.task.task34.task3410.model.Player;
-import com.javarush.task.task34.task3410.model.Wall;
+import com.javarush.task.task34.task3410.model.GameObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +17,8 @@ public class Field extends JPanel {
 
     // пока заглушка
     public void paint(Graphics g) {
-        // тест
+        /*
+        //  --- тест
         Player p = new Player(30,30);
         Box b = new Box(30,60);
         Home h = new Home(60,30);
@@ -29,6 +27,16 @@ public class Field extends JPanel {
         b.draw(g);
         h.draw(g);
         w.draw(g);
+        // ---- тест -----
+         */
+
+        // залить всё поле темно-коричневым цветом
+        Color backgroundColor = new Color(66,46,3); // темно-коричневый
+        g.setColor(backgroundColor);
+        g.fillRect(0,0,500,500); // размер игрового поля 500 x 500
+        for(GameObject o : view.getGameObjects().getAll()) {
+            o.draw(g);
+        }
     }
 
     public void setEventListener(EventListener eventListener) {
