@@ -16,9 +16,12 @@ public class Cat {
     public boolean fight(Cat anotherCat) {
         //напишите тут ваш код
 
-        int wAge = this.age > anotherCat.age ? 1 : 0;
-        int wWei = this.weight > anotherCat.weight ? 1 : 0;
-        int wStr = this.strength > anotherCat.strength ? 1 : 0;
+//        int wAge = this.age > anotherCat.age ? 1 : 0;
+//        int wWei = this.weight > anotherCat.weight ? 1 : 0;
+//        int wStr = this.strength > anotherCat.strength ? 1 : 0;
+        int cat1Force =0;
+        int cat2Force = 0;
+        /*
         if(this.age> anotherCat.age)
             if(this.weight>anotherCat.weight || this.strength>anotherCat.strength)
                 return true;
@@ -30,6 +33,11 @@ public class Cat {
                 return true;
 
         return false;
+         */
+        if(this.age> anotherCat.age) cat1Force++; else cat2Force++;
+        if(this.weight>anotherCat.weight) cat1Force++; else cat2Force++;
+        if(this.strength>anotherCat.strength) cat1Force++; else cat2Force++;
+        return cat1Force>cat2Force;
     }
 
     public static void main(String[] args) {
