@@ -8,9 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 // Загрузчик уровня из текстового файла
-// финальный код позаимствован отсюда:
-// https://github.com/Polurival/JRHW/blob/master/src/com/javarush/test/level34/lesson15/big01/model/LevelLoader.java
-// P.S. Спасибо, бро
 public class LevelLoader {
     private Path levels; // путь
 
@@ -25,6 +22,7 @@ public class LevelLoader {
         Player player = null;
 
         int loopLevel = (level>60) ? level % 60 : level;
+
         try (BufferedReader reader = new BufferedReader(new FileReader(levels.toFile())))
         {
             int readLevel = 0;
@@ -41,15 +39,24 @@ public class LevelLoader {
                 }
                 if (readLevel == loopLevel)
                 {
-                    if (line.length() == 0) { // пустая строка - начинаем парсить внутренности
+                    if (line.length() == 0)
+                    {
                         boolean isEnd = isLevelMap;
+
                         isLevelMap = !isLevelMap;
-                        if (isEnd && !isLevelMap) {
+
+                        if (isEnd && !isLevelMap)
+                        {
                             break;
-                        } else continue;
+                        } else
+                        {
+                            continue;
+                        }
                     }
-                    if (isLevelMap) {
+                    if (isLevelMap)
+                    {
                         x = Model.FIELD_CELL_SIZE / 2;
+
                         char[] chars = line.toCharArray();
                         for (char c : chars)
                         {
@@ -65,7 +72,7 @@ public class LevelLoader {
                                     homes.add(new Home(x, y));
                                     break;
                                 case '&':
-                                    boxes.add(new Box(x, y)); // важно! если ящик в "доме", то нужны обе координаты
+                                    boxes.add(new Box(x, y));
                                     homes.add(new Home(x, y));
                                     break;
                                 case '@':
