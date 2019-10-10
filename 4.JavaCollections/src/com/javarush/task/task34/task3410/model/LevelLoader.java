@@ -17,18 +17,22 @@ public class LevelLoader {
         Set<Wall> walls = new HashSet<>();
         Set<Home> homes = new HashSet<>();
         Set<Box> boxes = new HashSet<>();
-        walls.add(new Wall(10,10));
-        walls.add(new Wall(10+Model.FIELD_CELL_SIZE,10));
-        walls.add(new Wall(10+Model.FIELD_CELL_SIZE*2,10));
-        walls.add(new Wall(10+Model.FIELD_CELL_SIZE*3,10));
-        walls.add(new Wall(10,10+Model.FIELD_CELL_SIZE));
-        walls.add(new Wall(10,10+Model.FIELD_CELL_SIZE*2));
-        walls.add(new Wall(10,10+Model.FIELD_CELL_SIZE*3));
-        homes.add(new Home(40,60));
-        boxes.add(new Box(80,100));
-        Player player = new Player(120,80);
-
-        // (Set<Wall> walls, Set<Box> boxes, Set<Home> homes, Player player)
+        for(int i=20; i<=400; i+=20) {
+            walls.add(new Wall(i,20));
+            walls.add(new Wall(i,400));
+        }
+        for(int i=20; i<=400-20; i++) {
+            walls.add(new Wall(20,i));
+            walls.add(new Wall(400,i));
+        }
+        walls.add(new Wall(200, 200));
+        walls.add(new Wall(220, 200));
+        walls.add(new Wall(240, 200));
+        boxes.add(new Box(240, 240));
+        boxes.add(new Box(280,240));
+        homes.add(new Home(40, 40));
+        homes.add(new Home(80, 40));
+        Player player = new Player(320, 240);
         return new GameObjects(walls, boxes, homes, player);
 
 
