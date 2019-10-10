@@ -106,6 +106,7 @@ public class Model {
     // Обрати внимание, что все объекты перемещаются на фиксированное значение FIELD_CELL_SIZE,
     // независящее от размеров объекта, которые используются для его отрисовки.
     //Подсказка: для определения столкновений используй методы isCollision() игровых объектов и метод checkWallCollision() модели.
+    // ВАЖНО! ИМЯ  МЕТОДА ДОЛЖНО СОДЕРЖАТЬ "Avaliable", а не "Available" !!!!
     public boolean checkBoxCollisionAndMoveIfAvaliable(Direction direction) {
         Player player = gameObjects.getPlayer(); // игрок
         // проверяем все ящики, в которые может упереться игрок при движении в направлении Direction
