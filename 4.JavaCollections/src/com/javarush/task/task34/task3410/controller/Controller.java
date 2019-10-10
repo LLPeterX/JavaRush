@@ -24,6 +24,7 @@ public class Controller implements EventListener {
     // основной метод -----------------------------------
     public static void main(String[] args) {
         Controller controller = new Controller();
+
     }
     // --------------------------------------------------
 

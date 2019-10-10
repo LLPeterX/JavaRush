@@ -27,19 +27,6 @@ public class Field extends JPanel {
 
     // пока заглушка
     public void paint(Graphics g) {
-        /*
-        //  --- тест
-        Player p = new Player(30,30);
-        Box b = new Box(30,60);
-        Home h = new Home(60,30);
-        Wall w = new Wall(60,60);
-        p.draw(g);
-        b.draw(g);
-        h.draw(g);
-        w.draw(g);
-        // ---- тест -----
-         */
-
         // залить всё поле темно-коричневым цветом
         Color backgroundColor = new Color(66,46,3); // темно-коричневый
         g.setColor(backgroundColor);

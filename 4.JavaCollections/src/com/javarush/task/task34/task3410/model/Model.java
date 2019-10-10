@@ -2,16 +2,16 @@ package com.javarush.task.task34.task3410.model;
 
 import com.javarush.task.task34.task3410.controller.EventListener;
 
-import java.nio.file.Paths;
+import java.io.File;
 
 public class Model {
     public static final int FIELD_CELL_SIZE = 20; // размер ячейки игрового поля
     private EventListener eventListener;
     private GameObjects gameObjects; // все игровые объекты
-    private int currentLevel = 1; // тек.уровень
-    // проинициализировать
-    private LevelLoader levelLoader = new LevelLoader(Paths.get("../res/levels.txt"));
-
+    private int currentLevel = 61; // тек.уровень
+    private LevelLoader levelLoader = new LevelLoader(
+            new File(getClass().getResource("../res/levels.txt").getFile()).toPath()
+    );
 
     public void setEventListener(EventListener eventListener) {
         this.eventListener = eventListener;
@@ -106,7 +106,6 @@ public class Model {
     // Обрати внимание, что все объекты перемещаются на фиксированное значение FIELD_CELL_SIZE,
     // независящее от размеров объекта, которые используются для его отрисовки.
     //Подсказка: для определения столкновений используй методы isCollision() игровых объектов и метод checkWallCollision() модели.
-    // ВАЖНО! ИМЯ  МЕТОДА ДОЛЖНО СОДЕРЖАТЬ "Avaliable", а не "Available" !!!!
     public boolean checkBoxCollisionAndMoveIfAvaliable(Direction direction) {
         Player player = gameObjects.getPlayer(); // игрок
         // проверяем все ящики, в которые может упереться игрок при движении в направлении Direction
