@@ -6,6 +6,7 @@ public class SnakeGame extends Game {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     private Snake snake;
+    private int turnDelay; // 300 ms за ход
 
     @Override
     public void initialize() {
@@ -16,6 +17,8 @@ public class SnakeGame extends Game {
     private void createGame() {
         snake = new Snake(WIDTH/2,HEIGHT/2);
         drawScene();
+        turnDelay = 300; // 300 ms (изначально)
+        setTurnTimer(turnDelay);
     }
 
     private void drawScene() {
@@ -23,5 +26,11 @@ public class SnakeGame extends Game {
             for(int j=0; j<WIDTH; j++)
                 setCellColor(i,j,Color.DARKSEAGREEN);
         snake.draw(this);
+    }
+
+    @Override
+    public void onTurn(int value) {
+        snake.move();
+        drawScene();
     }
 }
