@@ -54,6 +54,11 @@ public class Snake {
             isAlive = false;
             return;
         }
+        // проверяем, что столкнулись сами с собой
+        if(checkCollision(head)) {
+            isAlive = false;
+            return;
+        }
         snakeParts.add(0,head);
         if(apple.x==head.x && apple.y==head.y) {
             apple.isAlive = false;
@@ -86,6 +91,19 @@ public class Snake {
     public void removeTail() {
         GameObject tail = snakeParts.get(snakeParts.size()-1);
         snakeParts.remove(tail);
+    }
+
+    // проверка, что змея не проходит через свое тело
+    // 2. Метод checkCollision(GameObject) должен возвращать true,
+    //    если координаты объекта, пришедшего параметром, совпали с координатами одного из элементов змеи (список snakeParts).
+    // 3. Метод checkCollision(GameObject) должен возвращать false,
+    //    если координаты объекта, пришедшего параметром, не совпали с координатами всех элементов змеи (список snakeParts).
+    public boolean checkCollision(GameObject o) {
+        for(GameObject snakePart : snakeParts) {
+            if(snakePart.x == o.x && snakePart.y == o.y)
+                return true;
+        }
+        return false;
     }
 
 }
