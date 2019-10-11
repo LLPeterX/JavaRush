@@ -22,6 +22,10 @@ public class SpaceInvadersGame extends Game  {
     }
 
     private void drawField() {
+        // закрасим поле
+        for(int i=0; i<HEIGHT; i++)
+            for(int j=0; j<WIDTH; j++)
+                setCellValueEx(i,j, Color.BLACK, "");
 
     }
 }
