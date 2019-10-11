@@ -46,4 +46,6 @@ public class SpaceInvadersGame extends Game  {
             stars.add(new Star(x,y)); // ну, не будем проверять совпадение координат
         }
     }
+
+
 }
