@@ -27,7 +27,6 @@ public class SnakeGame extends Game {
     private void drawScene() {
         for(int i=0; i<HEIGHT; i++)
             for(int j=0; j<WIDTH; j++)
-                //setCellColor(i,j,Color.DARKSEAGREEN);
                 setCellValueEx(i,j,Color.DARKSEAGREEN,"");
         snake.draw(this);
     }
@@ -36,5 +35,25 @@ public class SnakeGame extends Game {
     public void onTurn(int value) {
         snake.move();
         drawScene();
+    }
+
+    @Override
+    public void onKeyPress(Key key) {
+        // Важно: проверка, что нельзя змею развернуть на 180 градусов
+        // осуществляется в snake.setDirection(), а не здесь!
+        switch (key) {
+            case LEFT:
+                snake.setDirection(Direction.LEFT);
+                break;
+            case RIGHT:
+                snake.setDirection(Direction.RIGHT);
+                break;
+            case UP:
+                snake.setDirection(Direction.UP);
+                break;
+            case DOWN:
+                snake.setDirection(Direction.DOWN);
+                break;
+        }
     }
 }

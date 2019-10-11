@@ -33,7 +33,16 @@ public class Snake {
     }
 
     public void setDirection(Direction direction) {
+        // проверка, что нельзя развернуть на 180 градусов
+        if(this.direction == Direction.LEFT && direction==Direction.RIGHT) return;
+        if(this.direction == Direction.RIGHT && direction==Direction.LEFT) return;
+        if(this.direction == Direction.UP && direction==Direction.DOWN) return;
+        if(this.direction == Direction.DOWN && direction==Direction.UP) return;
         this.direction = direction;
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 
     public void move() {
