@@ -38,6 +38,22 @@ public class Snake {
         if(this.direction == Direction.RIGHT && direction==Direction.LEFT) return;
         if(this.direction == Direction.UP && direction==Direction.DOWN) return;
         if(this.direction == Direction.DOWN && direction==Direction.UP) return;
+        // условия из Snake(18)
+        GameObject obj0 = snakeParts.get(0);
+        GameObject obj1 = snakeParts.get(1);
+        // 1. Метод setDirection(Direction) класса Snake не должен ничего делать,
+        // если значение поля direction равно LEFT, и сегменты змейки из snakeParts с индексами 0 и 1
+        // имеют одинаковое значение координаты x.
+        if(this.direction == Direction.LEFT && (obj0.x==obj1.x)) return;
+        // 2. Метод setDirection(Direction) класса Snake не должен ничего делать,
+        // если значение поля direction равно RIGHT, и сегменты змейки из snakeParts с индексами 0 и 1
+        // имеют одинаковое значение координаты x.
+        if(this.direction == Direction.RIGHT && (obj0.x==obj1.x)) return;
+        // 3. Метод setDirection(Direction) класса Snake не должен ничего делать, если значение поля direction равно UP,
+        // и сегменты змейки из snakeParts с индексами 0 и 1 имеют одинаковое значение координаты y.
+        if(this.direction == Direction.UP && (obj0.y == obj1.y)) return;
+        // ну и для DOWN
+        if(this.direction == Direction.DOWN && (obj0.y == obj1.y)) return;
         this.direction = direction;
     }
 
@@ -94,10 +110,6 @@ public class Snake {
     }
 
     // проверка, что змея не проходит через свое тело
-    // 2. Метод checkCollision(GameObject) должен возвращать true,
-    //    если координаты объекта, пришедшего параметром, совпали с координатами одного из элементов змеи (список snakeParts).
-    // 3. Метод checkCollision(GameObject) должен возвращать false,
-    //    если координаты объекта, пришедшего параметром, не совпали с координатами всех элементов змеи (список snakeParts).
     public boolean checkCollision(GameObject o) {
         for(GameObject snakePart : snakeParts) {
             if(snakePart.x == o.x && snakePart.y == o.y)
