@@ -45,13 +45,20 @@ public class Snake {
         return direction;
     }
 
-    public void move() {
+    // Перепиши метод move() класса Snake.
+    // Теперь в качестве аргумента он должен принимать яблоко, и если окажется, что змейка "съела" яблоко,
+    // состояние яблока должно устанавливаться в "неживое", а размер змейки — увеличиваться на 1 элемент.
+    public void move(Apple apple) {
         GameObject head = createNewHead();
         if(head.x<0 || head.y<0 || head.x>=SnakeGame.WIDTH || head.y>=SnakeGame.HEIGHT) {
             isAlive = false;
             return;
         }
         snakeParts.add(0,head);
+        if(apple.x==head.x && apple.y==head.y) {
+            apple.isAlive = false;
+            return; // не удалять хвост змеи - т.о. размер змеи увеличится на 1
+        }
         removeTail();
     }
 

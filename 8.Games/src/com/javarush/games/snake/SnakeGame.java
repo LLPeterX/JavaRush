@@ -7,6 +7,7 @@ public class SnakeGame extends Game {
     public static final int HEIGHT = 15;
     private Snake snake;
     private int turnDelay; // 300 ms за ход
+    private Apple apple;
 
     @Override
     public void initialize() {
@@ -16,6 +17,7 @@ public class SnakeGame extends Game {
 
     private void createGame() {
         snake = new Snake(WIDTH/2,HEIGHT/2);
+        apple = new Apple(5,5);
         drawScene();
         turnDelay = 300; // 300 ms (изначально)
         setTurnTimer(turnDelay);
@@ -29,18 +31,17 @@ public class SnakeGame extends Game {
             for(int j=0; j<WIDTH; j++)
                 setCellValueEx(i,j,Color.DARKSEAGREEN,"");
         snake.draw(this);
+        apple.draw(this);
     }
 
     @Override
     public void onTurn(int value) {
-        snake.move();
+        snake.move(apple);
         drawScene();
     }
 
     @Override
     public void onKeyPress(Key key) {
-        // Важно: проверка, что нельзя змею развернуть на 180 градусов
-        // осуществляется в snake.setDirection(), а не здесь!
         switch (key) {
             case LEFT:
                 snake.setDirection(Direction.LEFT);
