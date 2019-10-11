@@ -21,10 +21,14 @@ public class SnakeGame extends Game {
         setTurnTimer(turnDelay);
     }
 
+    // 5. В классе SnakeGame в методе drawScene() необходимо заменить вызов метода setCellColor(int, int, Color)
+    // на вызов метода setCellValueEx(int, int, Color, String) с параметрами:
+    // x, y, цвет (например, Color.DARKSEAGREEN) и пустая строка.
     private void drawScene() {
         for(int i=0; i<HEIGHT; i++)
             for(int j=0; j<WIDTH; j++)
-                setCellColor(i,j,Color.DARKSEAGREEN);
+                //setCellColor(i,j,Color.DARKSEAGREEN);
+                setCellValueEx(i,j,Color.DARKSEAGREEN,"");
         snake.draw(this);
     }
 
