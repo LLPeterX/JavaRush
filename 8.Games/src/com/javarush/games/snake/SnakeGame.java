@@ -10,6 +10,7 @@ public class SnakeGame extends Game {
     private int turnDelay; // 300 ms за ход
     private Apple apple;
     private boolean isGameStopped;
+    private int score;
 
     @Override
     public void initialize() {
@@ -19,6 +20,8 @@ public class SnakeGame extends Game {
 
     private void createGame() {
         isGameStopped = false;
+        score = 0;
+        setScore(score);
         snake = new Snake(WIDTH/2,HEIGHT/2);
         createNewApple();
         drawScene();
@@ -41,6 +44,10 @@ public class SnakeGame extends Game {
     public void onTurn(int value) {
         snake.move(apple);
         if(!apple.isAlive) {
+            this.score+=5;
+            setScore(this.score);
+            turnDelay-=10; // увеличиваем скорость (уменьшаем задержку)
+            setTurnTimer(turnDelay);
             createNewApple();
         }
         if(!snake.isAlive) {
