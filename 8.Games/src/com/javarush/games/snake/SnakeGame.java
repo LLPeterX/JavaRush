@@ -67,13 +67,19 @@ public class SnakeGame extends Game {
             case DOWN:
                 snake.setDirection(Direction.DOWN);
                 break;
+            case SPACE: // рестарт
+                if(isGameStopped)
+                    createGame();
+                break;
         }
     }
 
     private void createNewApple() {
-        int x = getRandomNumber(WIDTH);
-        int y = getRandomNumber(HEIGHT);
-        apple = new Apple(x,y);
+        do {
+            int x = getRandomNumber(WIDTH);
+            int y = getRandomNumber(HEIGHT);
+            apple = new Apple(x, y);
+        } while(snake.checkCollision(apple));
     }
 
     private void gameOver() {
