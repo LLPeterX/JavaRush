@@ -11,6 +11,7 @@ import java.util.List;
 public class SpaceInvadersGame extends Game  {
     public static final int WIDTH = 64;
     public static final int HEIGHT = 64;
+    public static final int COMPLEXITY = 5; // сложность игры
     private List<Star> stars;
     private EnemyFleet enemyFleet;
 

@@ -11,4 +11,8 @@ public class Ship extends GameObject {
         // В качестве параметра передай в метод viewFrame.
         super.setMatrix(viewFrame);
     }
+
+    public Bullet fire() {
+        return null; // заглушка - переопределим этот метод в других классах-наследниках
+    }
 }

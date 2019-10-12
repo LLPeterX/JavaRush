@@ -33,4 +33,11 @@ public class EnemyShip extends Ship {
         }
     }
 
+    @Override
+    public Bullet fire() {
+        // 5. Метод fire() класса EnemyShip должен возвращать новый объект типа Bullet.
+        // В качестве параметров конструктора передай x + 1, y + height, Direction.DOWN.
+        return new Bullet(x+1, y+height,Direction.DOWN);
+    }
+
 }
