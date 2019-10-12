@@ -111,4 +111,20 @@ public class EnemyFleet {
     public void deleteHiddenShips() {
         ships.removeIf(s -> !s.isVisible());
     }
+
+    public double getBottomBorder() {
+        // Метод getBottomBorder() должен возвращать максимальное из значений (y + height)
+        // среди всех вражеских кораблей из списка ships.
+        double bottom = 0;
+        for(EnemyShip ship : ships) {
+            bottom = Math.max(bottom,ship.y+ship.height);
+        }
+        return bottom;
+    }
+
+    public int getShipsCount() {
+        return ships.size();
+    }
+
+
 }
