@@ -1,5 +1,6 @@
 package com.javarush.games.spaceinvaders.gameobjects;
 
+import com.javarush.engine.cell.Game;
 import com.javarush.games.spaceinvaders.ShapeMatrix;
 
 import java.util.ArrayList;
@@ -16,8 +17,24 @@ public class EnemyFleet {
     private static final int STEP = ShapeMatrix.ENEMY.length+1; // расстояние в ряду между вражинами
     private List<EnemyShip> ships;
 
+    // конструктор без параметров
+    public EnemyFleet() {
+        createShips();
+    }
+
     private void createShips() {
         this.ships = new ArrayList<EnemyShip>();
+        for(int y=0; y<ROWS_COUNT; y++) {
+            for(int x=0; x<COLUMNS_COUNT; x++) {
+                ships.add(new EnemyShip(x*STEP, y*STEP+12));
+            }
+        }
+    }
+
+    public void draw(Game game) {
+        for(EnemyShip ship : ships) {
+            ship.draw(game);
+        }
     }
 
 }
