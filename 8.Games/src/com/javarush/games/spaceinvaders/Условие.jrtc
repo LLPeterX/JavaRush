@@ -1,4 +1,17 @@
-taskKey="com.javarush.games.spaceinvaders.part18"\n\nИгра Space Invaders (18/34)
+taskKey="com.javarush.games.spaceinvaders.part19"\n\nИгра Space Invaders (19/34)
+
+Реализуем "убийство" игрока, переопределив метод kill(). Помимо установки флага isAlive в состояние false,
+он будет добавлять анимацию уничтожения корабля.
+
+
+Требования:
+1.	В классе PlayerShip должен быть переопределен метод kill() базового класса.
+2.	Метод kill() не должен ничего делать, если корабль игрока &lt;неживой&gt;.
+3.	В методе kill() класса PlayerShip полю isAlive необходимо установить значение false.
+4.	В методе kill() класса PlayerShip необходимо вызвать метод базового класса setAnimatedView(int[][]...) с параметрами: ShapeMatrix.KILL_PLAYER_ANIMATION_FIRST, ShapeMatrix.KILL_PLAYER_ANIMATION_SECOND, ShapeMatrix.KILL_PLAYER_ANIMATION_THIRD, ShapeMatrix.DEAD_PLAYER.
+
+
+Игра Space Invaders (18/34)
 
 На данном этапе мы подготовим анимацию для крушения кораблей. Для этого нам понадобится поле frames типа List<int[][]>,
 которое будет хранить список матриц для кадров анимации. Также нам понадобится поле frameIndex, которое хранит индекс
@@ -6,17 +19,6 @@ taskKey="com.javarush.games.spaceinvaders.part18"\n\nИгра Space Invaders (18
 кадров(матриц) и передает их списку frames. В завершение, реализуем метод setStaticView, который задает изначальную матрицу
 для кораблей.
 
-
-Требования:
-1.	В классе Ship должно существовать приватное поле frames типа List&lt;int[][]&gt;.
-2.	В классе Ship должно существовать приватное поле int frameIndex.
-3.	В классе Ship должен существовать публичный метод void setAnimatedView(int[][]... viewFrames).
-4.	В методе setAnimatedView(int[][]... viewFrames) необходимо вызвать метод setMatrix(int[][]) базового класса. В качестве параметра передай в метод viewFrames[0].
-5.	В методе setAnimatedView(int[][]... viewFrames) поле frames должно быть инициализировано значением Arrays.asList(viewFrames).
-6.	В методе setAnimatedView(int[][]... viewFrames) полю frameIndex необходимо установить значение 0.
-7.	В методе setStaticView(int[][] viewFrame) поле frames должно быть инициализировано новым объектом типа ArrayList&lt;int[][]&gt;.
-8.	В методе setStaticView(int[][] viewFrame) в список frames необходимо добавить объект viewFrame.
-9.	В методе setStaticView(int[][]) полю frameIndex необходимо установить значение 0.
 
 
 Игра Space Invaders (17/34)
@@ -56,15 +58,6 @@ taskKey="com.javarush.games.spaceinvaders.part18"\n\nИгра Space Invaders (18
 
 Создадим и реализуем метод fire у EnemyFleet. Этот метод будет вызывать метод fire у одного из кораблей флота, выбранного случайно.
 Кроме того, флот будет стрелять с вероятностью COMPLEXITY процентов.
-
-
-
-Игра Space Invaders (13/34)
-
-Введем переменную COMPLEXITY, которая отвечает за сложность игры, а именно — за вероятность выстрела
-вражеского корабля за один шаг игры. Все корабли должны стрелять, поэтому в класс Ship добавим метод fire. Так как экземпляр
-этого класса мы не будем создавать, сделаем этот метод "заглушкой", а реализовывать его будем в
-классах-наследниках. Чтобы пуля вылетала из носовой пушки, нужно передать в конструктор правильные координаты.
 
 
 
