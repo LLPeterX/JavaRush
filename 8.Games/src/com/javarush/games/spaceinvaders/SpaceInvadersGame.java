@@ -1,7 +1,6 @@
 package com.javarush.games.spaceinvaders;
 
-import com.javarush.engine.cell.Color;
-import com.javarush.engine.cell.Game;
+import com.javarush.engine.cell.*;
 import com.javarush.games.spaceinvaders.gameobjects.Bullet;
 import com.javarush.games.spaceinvaders.gameobjects.EnemyFleet;
 import com.javarush.games.spaceinvaders.gameobjects.PlayerShip;
@@ -114,5 +113,21 @@ public class SpaceInvadersGame extends Game  {
         animationsCount++;
         if(animationsCount>=10)
             stopGame(playerShip.isAlive);
+    }
+
+    @Override
+    public void onKeyPress(Key key) {
+        if(key == Key.SPACE && isGameStopped) {
+            createGame();
+            return;
+        }
+        switch (key) {
+            case LEFT:
+                playerShip.setDirection(Direction.LEFT);
+                break;
+            case RIGHT:
+                playerShip.setDirection(Direction.RIGHT);
+                break;
+        }
     }
 }
