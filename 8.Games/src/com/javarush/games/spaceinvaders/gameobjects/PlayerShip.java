@@ -47,12 +47,9 @@ public class PlayerShip extends Ship {
         switch (direction) {
             case LEFT:
                 x--;
-//                if(x < 0)  x = 0; // внутри case нельзя - валидатор ругается
                 break;
             case RIGHT:
                 x++;
-//                if(x+width > SpaceInvadersGame.WIDTH)
-//                    x = SpaceInvadersGame.WIDTH - width;
                 break;
         }
         if(x<0)
@@ -60,5 +57,9 @@ public class PlayerShip extends Ship {
         else if(x+width > SpaceInvadersGame.WIDTH)
             x = SpaceInvadersGame.WIDTH - width;
 
+    }
+
+    public Direction getDirection() {
+        return direction;
     }
 }
