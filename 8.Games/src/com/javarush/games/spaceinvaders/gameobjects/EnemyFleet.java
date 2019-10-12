@@ -37,4 +37,23 @@ public class EnemyFleet {
         }
     }
 
+    private double getLeftBorder() {
+        //  Метод getLeftBorder() должен возвращать минимальную координату x среди всех вражеских кораблей из списка ships.
+        double minX=ships.get(0).x;
+        for(int i=1; i<ships.size(); i++) {
+            minX = Math.min(minX,ships.get(i).x);
+        }
+        return minX;
+    }
+
+    private double getRightBorder() {
+        // 9. Метод getRightBorder() должен возвращать максимальное из значений (x + width) среди всех вражеских кораблей из списка ships.
+        double maxX=ships.get(0).x+ships.get(0).width;
+        for(int i=1; i<ships.size(); i++) {
+            maxX = Math.max(maxX,ships.get(i).x+ships.get(i).width);
+        }
+        return maxX;
+
+    }
+
 }
