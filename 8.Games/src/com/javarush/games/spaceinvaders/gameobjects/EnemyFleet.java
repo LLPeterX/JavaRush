@@ -82,4 +82,15 @@ public class EnemyFleet {
             ship.move(shipDirection, speed);
     } // move()
 
+    public Bullet fire(Game game) {
+        if(ships.size()==0) return null;
+        int random = game.getRandomNumber(100/SpaceInvadersGame.COMPLEXITY);
+        // 4. В методе fire(Game) класса EnemyFleet необходимо вернуть null,
+        // если результат вызова метода getRandomNumber(int) больше нуля. (???)
+        if(random>0)  return null;
+        // иначе пальнуть из случайного корабля
+        int shipNumber = game.getRandomNumber(ships.size());
+        return ships.get(shipNumber).fire();
+    }
+
 }
