@@ -97,15 +97,19 @@ public class EnemyFleet {
     }
 
     // проверим попадания наших пуль по кораблям противника
-    public void verifyHit(List<Bullet> bullets) {
+    public int verifyHit(List<Bullet> bullets) {
+        int totalScore=0;
+        if(bullets.size()==0) return 0;
         for(EnemyShip ship : ships) {
             for(Bullet bullet : bullets) {
                 if(ship.isCollision(bullet) && bullet.isAlive && ship.isAlive) {
+                    totalScore+=ship.score;
                     bullet.kill();
                     ship.kill();
                 }
             }
         }
+        return totalScore;
     }
 
     public void deleteHiddenShips() {
