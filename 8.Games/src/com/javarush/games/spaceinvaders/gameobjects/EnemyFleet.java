@@ -32,6 +32,9 @@ public class EnemyFleet {
                 ships.add(new EnemyShip(x*STEP, y*STEP+12));
             }
         }
+        // добавляем босса
+        Boss boss = new Boss((double)(STEP * COLUMNS_COUNT / 2 - ShapeMatrix.BOSS_ANIMATION_FIRST.length / 2 - 1), 5);
+        ships.add(boss);
     }
 
     public void draw(Game game) {
