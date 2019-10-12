@@ -2,6 +2,7 @@ package com.javarush.games.spaceinvaders;
 
 import com.javarush.engine.cell.Color;
 import com.javarush.engine.cell.Game;
+import com.javarush.games.spaceinvaders.gameobjects.Bullet;
 import com.javarush.games.spaceinvaders.gameobjects.EnemyFleet;
 import com.javarush.games.spaceinvaders.gameobjects.Star;
 
@@ -14,6 +15,7 @@ public class SpaceInvadersGame extends Game  {
     public static final int COMPLEXITY = 5; // сложность игры
     private List<Star> stars;
     private EnemyFleet enemyFleet;
+    private List<Bullet> enemyBullets;
 
     @Override
     public void initialize() {
@@ -25,6 +27,7 @@ public class SpaceInvadersGame extends Game  {
     private void createGame() {
         createStars();
         enemyFleet = new EnemyFleet();
+        enemyBullets = new ArrayList<>();
         drawScene();
         setTurnTimer(40);
     }
@@ -32,8 +35,9 @@ public class SpaceInvadersGame extends Game  {
     private void drawScene() {
         drawField();
         enemyFleet.draw(this);
-        //9. В методе drawScene() после вызова метода drawField()
-        // у объекта enemyFleet должен быть вызван метод draw(Game). В качестве параметра передай в метод "this".
+        for(Bullet b: enemyBullets) {
+            b.draw(this);
+        }
     }
 
     private void drawField() {
@@ -58,10 +62,26 @@ public class SpaceInvadersGame extends Game  {
     @Override
     public void onTurn(int delay) {
         moveSpaceObjects();
+        check();
+        Bullet bullet = enemyFleet.fire(this);
+        if(bullet!=null) {
+            enemyBullets.add(bullet);
+        }
         drawScene();
     }
 
     private void moveSpaceObjects() {
         enemyFleet.move();
+        for(Bullet b: enemyBullets) {
+            b.move();
+        }
+    }
+
+    private void removeDeadBullets() {
+        enemyBullets.removeIf(b -> !b.isAlive || b.y>=HEIGHT-1);
+    }
+
+    private void check() {
+        removeDeadBullets();
     }
 }
