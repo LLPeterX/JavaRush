@@ -5,9 +5,9 @@ import com.javarush.engine.cell.*;
 public class GameObject {
     public double x;
     public double y;
+    public int width;
+    public int height;
     public int[][] matrix;
-    public int width, height; // размеры матрицы объекта
-
 
     public GameObject(double x, double y) {
         this.x = x;
@@ -16,20 +16,42 @@ public class GameObject {
 
     public void setMatrix(int[][] matrix) {
         this.matrix = matrix;
-        this.width = matrix[0].length;
-        this.height = matrix.length;
+        width = matrix[0].length;
+        height = matrix.length;
+    }
+
+    public boolean isCollision(GameObject gameObject) {
+        for (int gameObjectX = 0; gameObjectX < gameObject.width; gameObjectX++) {
+            for (int gameObjectY = 0; gameObjectY < gameObject.height; gameObjectY++) {
+                if (gameObject.matrix[gameObjectY][gameObjectX] > 0) {
+                    if (isCollision(gameObjectX + gameObject.x, gameObjectY + gameObject.y)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isCollision(double x, double y) {
+        for (int matrixX = 0; matrixX < width; matrixX++) {
+            for (int matrixY = 0; matrixY < height; matrixY++) {
+                if (matrix[matrixY][matrixX] > 0
+                        && matrixX + (int) this.x == (int) x
+                        && matrixY + (int) this.y == (int) y) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public void draw(Game game) {
-        // В методе draw(Game) для каждой ячейки матрицы matrix должен быть вызван метод
-        // setCellValueEx(int, int, Color, String) у объекта типа Game.
-        // В качестве параметров необходимо передать:
-        // x объекта на игровом поле + x в матрице, y объекта на игровом поле + y в матрице, цвет и пустую строку.
-        for(int i=0; i<height; i++) {
-            for(int j=0; j<width; j++) {
-                game.setCellValueEx((int)(this.x)+j,(int)(this.y)+i, Color.values()[matrix[i][j]],"");
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                int colorIndex = matrix[j][i];
+                game.setCellValueEx((int) x + i, (int) y + j, Color.values()[colorIndex], "");
             }
         }
-
     }
 }
