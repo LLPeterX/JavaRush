@@ -1,6 +1,7 @@
 package com.javarush.games.spaceinvaders.gameobjects;
 
 public class Ship extends GameObject {
+    public boolean isAlive = true;
 
     public Ship(double x, double y) {
         super(x, y);
@@ -14,5 +15,9 @@ public class Ship extends GameObject {
 
     public Bullet fire() {
         return null; // заглушка - переопределим этот метод в других классах-наследниках
+    }
+
+    public void kill() {
+        isAlive = false;
     }
 }

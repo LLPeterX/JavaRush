@@ -20,4 +20,8 @@ public class Bullet extends GameObject {
     public void move() {
         this.y += dy; // т.к. dy=-1, то вверх
     }
+
+    public void kill() {
+        isAlive = false;
+    }
 }
