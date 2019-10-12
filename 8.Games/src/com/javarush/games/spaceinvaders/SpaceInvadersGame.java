@@ -26,8 +26,9 @@ public class SpaceInvadersGame extends Game  {
     @Override
     public void initialize() {
         setScreenSize(WIDTH, HEIGHT);
-        drawScene();
         createGame();
+        //drawScene();
+        //createGame();
     }
 
     private void createGame() {
