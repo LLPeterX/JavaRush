@@ -3,6 +3,7 @@ package com.javarush.games.spaceinvaders.gameobjects;
 import com.javarush.engine.cell.Game;
 import com.javarush.games.spaceinvaders.Direction;
 import com.javarush.games.spaceinvaders.ShapeMatrix;
+import com.javarush.games.spaceinvaders.SpaceInvadersGame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,23 @@ public class EnemyFleet {
     }
 
     public void move() {
-
-    }
+        // 1. Метод move() класса EnemyFleet ничего не делает, если в списке ships нет кораблей.
+        if(ships.size()==0) return;
+        // 2. Если значение поля direction равно Direction.LEFT и результат вызова метода getLeftBorder() отрицательный,
+        // полю direction необходимо установить значение Direction.RIGHT.
+        Direction oldDirection = direction;
+        if(direction == Direction.LEFT && getLeftBorder() < 0)
+            direction = Direction.RIGHT;
+        else if(direction == Direction.RIGHT && getRightBorder() > SpaceInvadersGame.WIDTH)
+            direction = Direction.LEFT;
+        double speed = getSpeed();
+        // 5. Если значение поля direction было изменено, у каждого объекта из списка ships
+        //   необходимо вызвать метод move(Direction, double) с параметрами: Direction.DOWN, результат вызова метода getSpeed().
+        //6. Если значение поля direction не было изменено, у каждого объекта из списка ships необходимо
+        //   вызвать метод move(Direction, double) с параметрами: direction, результат вызова метода getSpeed().
+        Direction shipDirection = (direction!=oldDirection) ? Direction.DOWN : direction;
+        for(EnemyShip ship : ships)
+            ship.move(shipDirection, speed);
+    } // move()
 
 }
