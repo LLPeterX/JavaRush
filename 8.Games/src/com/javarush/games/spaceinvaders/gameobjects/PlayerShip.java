@@ -62,4 +62,10 @@ public class PlayerShip extends Ship {
     public Direction getDirection() {
         return direction;
     }
+
+    @Override
+    public Bullet fire() {
+        if(!isAlive) return null;
+        return new Bullet(x+2, y - ShapeMatrix.BULLET.length, Direction.UP);
+    }
 }
