@@ -93,4 +93,19 @@ public class EnemyFleet {
         return ships.get(shipNumber).fire();
     }
 
+    // проверим попадания наших пуль по кораблям противника
+    public void verifyHit(List<Bullet> bullets) {
+        for(EnemyShip ship : ships) {
+            for(Bullet bullet : bullets) {
+                if(ship.isCollision(bullet) && bullet.isAlive && ship.isAlive) {
+                    bullet.kill();
+                    ship.kill();
+                }
+            }
+        }
+    }
+
+    public void deleteHiddenShips() {
+        ships.removeIf(s -> !s.isVisible());
+    }
 }
