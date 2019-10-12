@@ -39,9 +39,10 @@ public class Ship extends GameObject {
     }
 
     public void nextFrame() {
+        //frameIndex = frameIndex+1;
         ++frameIndex;
         if(frameIndex>=frames.size()) return;
-        //setMatrix(frames.get(frameIndex)); // так нельзя - из за этого ошибка "надо увеличить frameIndex"
+        //setMatrix(frames.get(frameIndex));
         matrix = frames.get(frameIndex);
     }
 
